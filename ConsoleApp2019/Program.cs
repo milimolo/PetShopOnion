@@ -25,10 +25,6 @@ namespace ConsoleApp2019
             new Printer(petService);
 
             Console.ReadLine();
-            /*////then build provider 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var printer = serviceProvider.GetRequiredService<IPrinter>();
-            printer.StartUI();*/
         }
     }
 }

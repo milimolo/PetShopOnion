@@ -1,15 +1,21 @@
 ﻿using PetShop.Core.ApplicationService;
+using PetShop.Core.DomainService;
 using PetShop.Core.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PetShop.Infrastructure.Repositories
 {
     public class PetService : IPetService
     {
-        static int id = 1;
-        private List<Pet> _petList = new List<Pet>();
+        readonly IPetRepository _petRepo;
+
+        public PetService(IPetRepository petRepository)
+        {
+            _petRepo = petRepository;
+        }
 
         public Pet Create(Pet pet)
         {
@@ -23,7 +29,7 @@ namespace PetShop.Infrastructure.Repositories
 
         public List<Pet> GetPets()
         {
-            return _petList;
+            return _petRepo.ReadPets().ToList();
         }
 
         public Pet Update(Pet petUpdate)

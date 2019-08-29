@@ -9,13 +9,14 @@ namespace ConsoleApp2019
 {
     public class Printer
     {
-        private IPetService petService;
+        private IPetService _petService;
         public Printer(IPetService petService)
         {
-            List<Pet> pets = petService.GetPets();
+            _petService = petService;
+            List<Pet> pets = _petService.GetPets();
             foreach (var pet in pets)
             {
-                Console.WriteLine($"\n ID: {pet.ID} \nName: {pet.name} \n Type: {pet.type} \n Color: {pet.color} \n Price: {pet.price}");
+                Console.WriteLine($"\n ID: {pet.ID} \nName: {pet.name} \n Type: {pet.type} \n Birthday: {pet.birthday} \n Date of selling: {pet.soldDate} \n Color: {pet.color} \n Price: {pet.price}");
             }
         }
     }
