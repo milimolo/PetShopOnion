@@ -9,10 +9,12 @@ namespace PetShop.Core.ApplicationService
     {
         Pet Create(Pet pet);
 
+        Pet Delete(Pet pet);
+
         Pet FindPetById(int id);
 
         List<Pet> GetPets();
 
-        Pet Update(Pet petUpdate);
+        Pet Update(Pet petToUpdate, Pet updatedPet);
     }
 }

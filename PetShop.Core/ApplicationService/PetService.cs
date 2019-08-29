@@ -19,12 +19,17 @@ namespace PetShop.Infrastructure.Repositories
 
         public Pet Create(Pet pet)
         {
-            throw new NotImplementedException();
+            return _petRepo.CreatePet(pet);
+        }
+
+        public Pet Delete(Pet pet)
+        {
+            return _petRepo.DeletePet(pet);
         }
 
         public Pet FindPetById(int id)
         {
-            throw new NotImplementedException();
+            return _petRepo.ReadPet(id);
         }
 
         public List<Pet> GetPets()
@@ -32,9 +37,9 @@ namespace PetShop.Infrastructure.Repositories
             return _petRepo.ReadPets().ToList();
         }
 
-        public Pet Update(Pet petUpdate)
+        public Pet Update(Pet petToUpdate, Pet updatedPet)
         {
-            throw new NotImplementedException();
+            return _petRepo.UpdatePet(petToUpdate, updatedPet);
         }
     }
 }
