@@ -11,10 +11,24 @@ namespace PetShop.Infrastructure.Repositories
     public class PetService : IPetService
     {
         readonly IPetRepository _petRepo;
-
         public PetService(IPetRepository petRepository)
         {
             _petRepo = petRepository;
+        }
+
+        public Pet NewPet(string name, string type, DateTime birthday, DateTime dateSold, string color, string previousOwner, int price)
+        {
+            var pet = new Pet()
+            {
+                name = name,
+                type = type,
+                birthday = birthday,
+                soldDate = dateSold,
+                color = color,
+                previousOwner = previousOwner,
+                price = price
+            };
+            return pet;
         }
 
         public Pet Create(Pet pet)
@@ -37,9 +51,18 @@ namespace PetShop.Infrastructure.Repositories
             return _petRepo.ReadPets().ToList();
         }
 
-        public Pet Update(Pet petToUpdate, Pet updatedPet)
+        public Pet Update(Pet petToUpdate)
         {
-            return _petRepo.UpdatePet(petToUpdate, updatedPet);
+            var pet = FindPetById(petToUpdate.ID);
+            pet.name = petToUpdate.name;
+            pet.type = petToUpdate.type;
+            pet.birthday = petToUpdate.birthday;
+            pet.soldDate = petToUpdate.soldDate;
+            pet.color = petToUpdate.color;
+            pet.previousOwner = petToUpdate.previousOwner;
+            pet.price = petToUpdate.price;
+
+            return _petRepo.UpdatePet(pet);
         }
     }
 }

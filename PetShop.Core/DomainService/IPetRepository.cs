@@ -15,6 +15,6 @@ namespace PetShop.Core.DomainService
 
         IEnumerable<Pet> ReadPets();
 
-        Pet UpdatePet(Pet petToUpdate, Pet updatedPet);
+        Pet UpdatePet(Pet petUpdate);
     }
 }

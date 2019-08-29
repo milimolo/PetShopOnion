@@ -1,4 +1,5 @@
 ﻿using PetShop.Core.ApplicationService;
+using PetShop.Core.ApplicationService.Impl;
 using PetShop.Core.Entity;
 using PetShop.Infrastructure.Repositories;
 using System;
@@ -13,6 +14,7 @@ namespace ConsoleApp2019
         public Printer(IPetService petService)
         {
             _petService = petService;
+
             var pet2 = new Pet()
             {
                 name = "doggy",
@@ -24,6 +26,12 @@ namespace ConsoleApp2019
                 price = 29000
             };
 
+            StartUI();
+            
+        }
+
+        public void StartUI()
+        {
             string[] menuItems =
             {
                 "List all pets",
@@ -35,24 +43,54 @@ namespace ConsoleApp2019
             };
 
             var selection = ShowMenu(menuItems);
-            while(selection != 6)
+            while (selection != 6)
             {
                 switch (selection)
                 {
                     case 1:
-                        ListMovies();
+                        ListPets();
                         break;
                     case 2:
-                        ListMovies();
+                        ListPets();
                         break;
                     case 3:
-                        CreateMovie();
+                        var petName = AskQuestion("\nPlease write the name of the pet.");
+                        var petType = AskQuestion("Please write which type of pet it is.");
+                        var birthday = DateTime.Parse(AskQuestion("Please write the date of the pets birthday."));
+                        var soldDate = DateTime.Parse(AskQuestion("Please write the date of selling."));
+                        var color = AskQuestion("Please write the color of the pet.");
+                        var previousOwner = AskQuestion("Please write the name of the previous owner.");
+                        var price = Convert.ToInt32(AskQuestion("Please write the price of the pet."));
+                        var pet = _petService.NewPet(petName, petType, birthday, soldDate, color, previousOwner, price);
+                        _petService.Create(pet);
                         break;
                     case 4:
-                        ListMovies();
+                        var idForUpdate = PrintFindPetById();
+                        var petToUpdate = _petService.FindPetById(idForUpdate);
+                        Console.WriteLine($"Updating {petToUpdate.name}");
+                        var newName = AskQuestion("Please write the name of the pet.");
+                        var newType = AskQuestion("Please write which type of pet it is.");
+                        var newBirthday = DateTime.Parse(AskQuestion("Please write the date of the pets birthday."));
+                        var newSoldDate = DateTime.Parse(AskQuestion("Please write the date of selling."));
+                        var newColor = AskQuestion("Please write the color of the pet.");
+                        var newPreviousOwner = AskQuestion("Please write the name of the previous owner.");
+                        var newPrice = Convert.ToInt32(AskQuestion("Please write the price of the pet."));
+                        _petService.Update(new Pet()
+                        {
+                            ID = idForUpdate,
+                            name = newName,
+                            type = newType,
+                            birthday = newBirthday,
+                            soldDate = newSoldDate,
+                            color = newColor,
+                            previousOwner = newPreviousOwner,
+                            price = newPrice
+                        });
                         break;
                     case 5:
-                        ListMovies();
+                        var idForDelete = PrintFindPetById();
+                        var petToDelete = _petService.FindPetById(idForDelete);
+                        _petService.Delete(petToDelete);
                         break;
                     case 6:
                         Console.WriteLine("Exiting.");
@@ -60,39 +98,38 @@ namespace ConsoleApp2019
                     default:
                         break;
                 }
+                Console.WriteLine("Press enter to get back to menu");
+                Console.ReadLine();
+                Console.Clear();
+                selection = ShowMenu(menuItems);
             }
         }
 
-        void CreateMovie()
+        int PrintFindPetById()
         {
-            Console.WriteLine("Please write the name of the pet.");
-            var petName = Console.ReadLine();
-            Console.WriteLine("Please write which type of pet it is.");
-            var petType= Console.ReadLine();
-            Console.WriteLine("Please write the date of the pets birthday.");
-            var petBirthday = DateTime.Parse(Console.ReadLine());
-            Console.WriteLine("Please write the date of selling.");
-            var petSoldDate = DateTime.Parse(Console.ReadLine());
-            Console.WriteLine("Please write the color of the pet.");
-            var petColor = Console.ReadLine();
-            Console.WriteLine("Please write the name of the previous owner.");
-            var previousOwner = Console.ReadLine();
-            Console.WriteLine("Please write the price of the pet.");
-            var price = Convert.ToInt32(Console.ReadLine());
-            var pet = new Pet()
+            Console.WriteLine("\nInsert pet Id: ");
+            int id;
+            while(!int.TryParse(Console.ReadLine(), out id))
             {
-                name = petName,
-                type = petType,
-                birthday = petBirthday,
-                soldDate = petSoldDate,
-                color = petColor,
-                previousOwner = previousOwner,
-                price = price
-            };
+                Console.WriteLine("Please insert a number");
+            }
+            return id;
         }
 
-        void ListMovies()
+        void UpdatePet()
         {
+            
+        }
+
+        string AskQuestion(string question)
+        {
+            Console.WriteLine(question);
+            return Console.ReadLine();
+        }
+
+        void ListPets()
+        {
+            Console.WriteLine("\nList of pets:");
             List<Pet> pets = _petService.GetPets();
             foreach (var pet in pets)
             {

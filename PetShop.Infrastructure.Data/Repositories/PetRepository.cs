@@ -46,10 +46,21 @@ namespace PetShop.Infrastructure.Data.Repositories
             return FakeDB.petList;
         }
 
-        public Pet UpdatePet(Pet petToUpdate, Pet updatedPet)
+        public Pet UpdatePet(Pet petUpdate)
         {
-            petToUpdate = updatedPet;
-            return petToUpdate;
+            var pet = this.ReadPet(petUpdate.ID);
+            if(pet != null)
+            {
+                pet.name = petUpdate.name;
+                pet.type = petUpdate.type;
+                pet.birthday = petUpdate.birthday;
+                pet.soldDate = petUpdate.soldDate;
+                pet.color = petUpdate.color;
+                pet.previousOwner = petUpdate.previousOwner;
+                pet.price = petUpdate.price;
+                return pet;
+            }
+            return null;
         }
     }
 }
