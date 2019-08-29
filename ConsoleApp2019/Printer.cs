@@ -116,11 +116,6 @@ namespace ConsoleApp2019
             return id;
         }
 
-        void UpdatePet()
-        {
-            
-        }
-
         string AskQuestion(string question)
         {
             Console.WriteLine(question);
