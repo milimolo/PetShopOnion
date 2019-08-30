@@ -15,19 +15,7 @@ namespace ConsoleApp2019
         {
             _petService = petService;
 
-            var pet2 = new Pet()
-            {
-                name = "doggy",
-                type = "Dog",
-                birthday = DateTime.Parse("12-12-2012"),
-                soldDate = DateTime.Parse("8-2-2014"),
-                color = "red",
-                previousOwner = "Mi svendsen",
-                price = 29000
-            };
-
             StartUI();
-            
         }
 
         public void StartUI()
@@ -51,7 +39,8 @@ namespace ConsoleApp2019
                         ListPets();
                         break;
                     case 2:
-                        ListPets();
+                        var searchTerm = AskQuestion("\nPlease write which type of pet you want to find");
+                        searchPetTypes(searchTerm);
                         break;
                     case 3:
                         var petName = AskQuestion("\nPlease write the name of the pet.");
@@ -133,6 +122,27 @@ namespace ConsoleApp2019
             Console.WriteLine("\n");
         }
 
+        void searchPetTypes(string searchTerm)
+        {
+            string loopBreak = null;
+            List<Pet> pets = _petService.GetPets();
+            foreach (var pet in pets)
+            {
+                if (pet.type.ToLower().Contains(searchTerm.ToLower()))
+                {
+                    Console.WriteLine($"\nFound pet of the type {searchTerm}.");
+                    Console.WriteLine($"\nID: {pet.ID} \nName: {pet.name} \nType: {pet.type} \nBirthday: {pet.birthday} \nDate of selling: {pet.soldDate} \nColor: {pet.color} \nPrice: {pet.price}");
+                    loopBreak = "";
+                }
+            }
+            if(loopBreak == null)
+            {
+                Console.WriteLine($"\nSorry could not find any pets of the type {searchTerm}.");
+            }
+        }
+
+
+
         int ShowMenu(string[] menuItems)
         {
             Console.WriteLine("Select what you want to do.");
@@ -146,7 +156,7 @@ namespace ConsoleApp2019
                 || selection < 1
                 || selection > 6)
             {
-                Console.WriteLine("Please write a number between 1-6.");
+                Console.WriteLine("\nPlease write a number between 1-6.");
             }
             return selection;
         }

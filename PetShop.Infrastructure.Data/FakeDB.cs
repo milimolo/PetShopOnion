@@ -27,7 +27,7 @@ namespace PetShop.Infrastructure.Data
             var pet2 = new Pet()
             {
                 ID = id++,
-                name = "John",
+                name = "Fiddo",
                 type = "Dog",
                 birthday = new DateTime(2002, 2, 21),
                 soldDate = new DateTime(2004, 5, 06),
@@ -35,8 +35,19 @@ namespace PetShop.Infrastructure.Data
                 previousOwner = "John Madsen",
                 price = 3500
             };
+            var pet3 = new Pet()
+            {
+                ID = id++,
+                name = "Jesse",
+                type = "Cat",
+                birthday = new DateTime(2003, 11, 01),
+                soldDate = new DateTime(2004, 1, 12),
+                color = "Black",
+                previousOwner = "Elias Gøringsen",
+                price = 1500
+            };
 
-            petList = new List<Pet> { pet1, pet2 };
+            petList = new List<Pet> { pet1, pet2, pet3 };
         }
     }
 }
