@@ -48,11 +48,11 @@ namespace ConsoleApp2019
                     case 3:
                         var petName = AskQuestion("\nPlease write the name of the pet.");
                         var petType = AskQuestion("Please write which type of pet it is.");
-                        var birthday = DateTime.Parse(AskQuestion("Please write the date of the pets birthday."));
-                        var soldDate = DateTime.Parse(AskQuestion("Please write the date of selling."));
+                        var birthday = AskQuestionDate("Please write the date of the pets birthday.");
+                        var soldDate = AskQuestionDate("Please write the date of selling.");
                         var color = AskQuestion("Please write the color of the pet.");
                         var previousOwner = AskQuestion("Please write the name of the previous owner.");
-                        var price = Convert.ToInt32(AskQuestion("Please write the price of the pet."));
+                        var price = AskQuestionNumber("Please write the price of the pet.");
                         var pet = _petService.NewPet(petName, petType, birthday, soldDate, color, previousOwner, price);
                         _petService.Create(pet);
                         break;
@@ -62,11 +62,11 @@ namespace ConsoleApp2019
                         Console.WriteLine($"Updating {petToUpdate.name}");
                         var newName = AskQuestion("Please write the name of the pet.");
                         var newType = AskQuestion("Please write which type of pet it is.");
-                        var newBirthday = DateTime.Parse(AskQuestion("Please write the date of the pets birthday."));
-                        var newSoldDate = DateTime.Parse(AskQuestion("Please write the date of selling."));
+                        var newBirthday = AskQuestionDate("Please write the date of the pets birthday.");
+                        var newSoldDate = AskQuestionDate("Please write the date of selling.");
                         var newColor = AskQuestion("Please write the color of the pet.");
                         var newPreviousOwner = AskQuestion("Please write the name of the previous owner.");
-                        var newPrice = Convert.ToInt32(AskQuestion("Please write the price of the pet."));
+                        var newPrice = AskQuestionNumber("Please write the price of the pet.");
                         _petService.Update(new Pet()
                         {
                             ID = idForUpdate,
@@ -118,6 +118,32 @@ namespace ConsoleApp2019
         {
             Console.WriteLine(question);
             return Console.ReadLine();
+        }
+
+        int AskQuestionNumber(string question)
+        {
+            Console.WriteLine(question);
+            int answer;
+
+            while (!int.TryParse(Console.ReadLine(), out answer))
+            {
+                Console.WriteLine("\nPlease write a number.");
+            }
+            return answer;
+        }
+
+        DateTime AskQuestionDate(string question)
+        {
+            Console.WriteLine(question);
+            string line = Console.ReadLine();
+            DateTime dt;
+            while(!DateTime.TryParseExact(line, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out dt))
+            {
+                Console.WriteLine("Invalid date, please retry with a date looking like: dd/MM/yyyy");
+                line = Console.ReadLine();
+            }
+            return dt;
+            
         }
 
         void ListPets()
