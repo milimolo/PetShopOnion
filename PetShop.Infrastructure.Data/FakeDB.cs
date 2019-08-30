@@ -33,7 +33,7 @@ namespace PetShop.Infrastructure.Data
                 soldDate = new DateTime(2004, 5, 06),
                 color = "Golden",
                 previousOwner = "John Madsen",
-                price = 3500
+                price = 1500
             };
             var pet3 = new Pet()
             {
@@ -44,10 +44,42 @@ namespace PetShop.Infrastructure.Data
                 soldDate = new DateTime(2004, 1, 12),
                 color = "Black",
                 previousOwner = "Elias Gøringsen",
-                price = 1500
+                price = 2500
             };
-
-            petList = new List<Pet> { pet1, pet2, pet3 };
+            var pet4 = new Pet()
+            {
+                ID = id++,
+                name = "Miav",
+                type = "Cat",
+                birthday = new DateTime(2003, 11, 01),
+                soldDate = new DateTime(2004, 1, 12),
+                color = "Black",
+                previousOwner = "Elias Gøringsen",
+                price = 2700
+            };
+            var pet5 = new Pet()
+            {
+                ID = id++,
+                name = "Jes",
+                type = "Goat",
+                birthday = new DateTime(2003, 11, 01),
+                soldDate = new DateTime(2004, 1, 12),
+                color = "Grey",
+                previousOwner = "Elias Gøringsen",
+                price = 3200
+            };
+            var pet6 = new Pet()
+            {
+                ID = id++,
+                name = "Jessada",
+                type = "Goat",
+                birthday = new DateTime(2003, 11, 01),
+                soldDate = new DateTime(2004, 1, 12),
+                color = "Grey",
+                previousOwner = "Elias Gøringsen",
+                price = 5000
+            };
+            petList = new List<Pet> { pet1, pet2, pet3, pet4, pet5, pet6 };
         }
     }
 }

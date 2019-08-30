@@ -4,6 +4,7 @@ using PetShop.Core.Entity;
 using PetShop.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ConsoleApp2019
@@ -27,11 +28,13 @@ namespace ConsoleApp2019
                 "New pet",
                 "Update pet",
                 "Delete pet",
+                "Sort pets by price",
+                "See 5 cheapest pets",
                 "Exit"
             };
 
             var selection = ShowMenu(menuItems);
-            while (selection != 6)
+            while (selection != 8)
             {
                 switch (selection)
                 {
@@ -82,6 +85,12 @@ namespace ConsoleApp2019
                         _petService.Delete(petToDelete);
                         break;
                     case 6:
+                        PrintSortByPrice();
+                        break;
+                    case 7:
+                        GetFiveCheapestPets();
+                        break;
+                    case 8:
                         Console.WriteLine("Exiting.");
                         break;
                     default:
@@ -141,7 +150,34 @@ namespace ConsoleApp2019
             }
         }
 
+        List<Pet> SortListByPrice()
+        {
+            List<Pet> pets = _petService.GetPets();
+            pets = _petService.ListSortedByPrice(pets);
+            return pets;
+        }
 
+        void PrintSortByPrice()
+        {
+            Console.WriteLine("Sorting pets by price\n");
+
+            var pets = SortListByPrice();
+
+            foreach (var pet in pets)
+            {
+                Console.WriteLine($"\nID: {pet.ID} \nName: {pet.name} \nType: {pet.type} \nBirthday: {pet.birthday} \nDate of selling: {pet.soldDate} \nColor: {pet.color} \nPrice: {pet.price}");
+            }
+        }
+
+        void GetFiveCheapestPets()
+        {
+            Console.WriteLine("\nThe five cheapest pets available: ");
+            var pets = SortListByPrice();
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine($"\nID: {pets[i].ID} \nName: {pets[i].name} \nType: {pets[i].type} \nBirthday: {pets[i].birthday} \nDate of selling: {pets[i].soldDate} \nColor: {pets[i].color} \nPrice: {pets[i].price}");
+            }
+        }
 
         int ShowMenu(string[] menuItems)
         {
@@ -154,9 +190,9 @@ namespace ConsoleApp2019
             int selection;
             while(!int.TryParse(Console.ReadLine(), out selection)
                 || selection < 1
-                || selection > 6)
+                || selection > 8)
             {
-                Console.WriteLine("\nPlease write a number between 1-6.");
+                Console.WriteLine("\nPlease write a number between 1-8.");
             }
             return selection;
         }

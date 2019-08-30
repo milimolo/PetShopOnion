@@ -64,5 +64,11 @@ namespace PetShop.Infrastructure.Repositories
 
             return _petRepo.UpdatePet(pet);
         }
+        public List<Pet> ListSortedByPrice(List<Pet> pets)
+        {
+            Pet pet = new Pet();
+            pets = pets.OrderBy(pet => pet.price).ToList();
+            return pets;
+        }
     }
 }

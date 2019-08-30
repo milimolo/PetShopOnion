@@ -18,5 +18,7 @@ namespace PetShop.Core.ApplicationService
         List<Pet> GetPets();
 
         Pet Update(Pet petToUpdate);
+
+        List<Pet> ListSortedByPrice(List<Pet> pets);
     }
 }
