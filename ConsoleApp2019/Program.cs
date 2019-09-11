@@ -22,7 +22,15 @@ namespace ConsoleApp2019
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var petService = serviceProvider.GetRequiredService<IPetService>();
-            new Printer(petService);
+
+            var serviceCollectionOwner = new ServiceCollection();
+            serviceCollectionOwner.AddScoped<IOwnerRepository, OwnerRepository>();
+            serviceCollectionOwner.AddScoped<IOwnerService, OwnerService>();
+
+            var serviceProviderOwner = serviceCollectionOwner.BuildServiceProvider();
+            var ownerService = serviceProviderOwner.GetRequiredService<IOwnerService>();
+
+            new Printer(petService, ownerService);
 
             Console.ReadLine();
         }

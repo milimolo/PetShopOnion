@@ -1,20 +1,18 @@
 ﻿using PetShop.Core.ApplicationService;
-using PetShop.Core.ApplicationService.Impl;
 using PetShop.Core.Entity;
-using PetShop.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ConsoleApp2019
 {
     public class Printer
     {
         private IPetService _petService;
-        public Printer(IPetService petService)
+        private IOwnerService _ownerService;
+        public Printer(IPetService petService, IOwnerService ownerService)
         {
             _petService = petService;
+            _ownerService = ownerService;
 
             StartUI();
         }
@@ -30,6 +28,8 @@ namespace ConsoleApp2019
                 "Delete pet",
                 "Sort pets by price",
                 "See 5 cheapest pets",
+                "List all owners",
+                "Search for owner by id",
                 "Exit"
             };
 
@@ -51,9 +51,9 @@ namespace ConsoleApp2019
                         var birthday = AskQuestionDate("Please write the date of the pets birthday.");
                         var soldDate = AskQuestionDate("Please write the date of selling.");
                         var color = AskQuestion("Please write the color of the pet.");
-                        var previousOwner = AskQuestion("Please write the name of the previous owner.");
+                        //var previousOwner = AskQuestion("Please write the id of the previous owner.");
                         var price = AskQuestionNumber("Please write the price of the pet.");
-                        var pet = _petService.NewPet(petName, petType, birthday, soldDate, color, previousOwner, price);
+                        var pet = _petService.NewPet(petName, petType, birthday, soldDate, color, null, price);
                         _petService.Create(pet);
                         break;
                     case 4:
@@ -65,7 +65,7 @@ namespace ConsoleApp2019
                         var newBirthday = AskQuestionDate("Please write the date of the pets birthday.");
                         var newSoldDate = AskQuestionDate("Please write the date of selling.");
                         var newColor = AskQuestion("Please write the color of the pet.");
-                        var newPreviousOwner = AskQuestion("Please write the name of the previous owner.");
+                        var newPreviousOwner = AskQuestionNumber("Please write the id of the previous owner.");
                         var newPrice = AskQuestionNumber("Please write the price of the pet.");
                         _petService.Update(new Pet()
                         {
@@ -75,7 +75,7 @@ namespace ConsoleApp2019
                             birthday = newBirthday,
                             soldDate = newSoldDate,
                             color = newColor,
-                            previousOwner = newPreviousOwner,
+                            previousOwner = null,
                             price = newPrice
                         });
                         break;
@@ -91,6 +91,18 @@ namespace ConsoleApp2019
                         GetFiveCheapestPets();
                         break;
                     case 8:
+                        ListOwners();
+                        break;
+                    case 9:
+                        var searchId = AskQuestionNumber("\nPlease write the id of the owner you want to find");
+                        searchOwners(searchId);
+                        break;
+                    case 10:
+
+                        break;
+                    case 11:
+                        break;
+                    case 12:
                         Console.WriteLine("Exiting.");
                         break;
                     default:
@@ -157,6 +169,17 @@ namespace ConsoleApp2019
             Console.WriteLine("\n");
         }
 
+        void ListOwners()
+        {
+            Console.WriteLine("\nList of owners:");
+            List<Owner> owners = _ownerService.GetOwners();
+            foreach (var owner in owners)
+            {
+                Console.WriteLine($"\nID: {owner.id} \nFirst name: {owner.firstName} \nLast name: {owner.lastName} \nOwned pet: {owner.pets}");
+            }
+            Console.WriteLine("\n");
+        }
+
         void searchPetTypes(string searchTerm)
         {
             string loopBreak = null;
@@ -173,6 +196,24 @@ namespace ConsoleApp2019
             if(loopBreak == null)
             {
                 Console.WriteLine($"\nSorry could not find any pets of the type {searchTerm}.");
+            }
+        }
+        void searchOwners(int searchId)
+        {
+            string loopBreak = null;
+            var owners = _ownerService.GetOwners();
+            foreach (var owner in owners)
+            {
+                if (owner.id ==(searchId))
+                {
+                    Console.WriteLine($"\nFound owner with the id: {searchId}.");
+                    Console.WriteLine($"\nID: {owner.id} \nFirst name: {owner.firstName} \nLast name: {owner.lastName} \nOwned pet: {owner.pets}");
+                    loopBreak = "";
+                }
+            }
+            if (loopBreak == null)
+            {
+                Console.WriteLine($"\nSorry could not find an owner with the id: {searchId}.");
             }
         }
 
@@ -216,9 +257,9 @@ namespace ConsoleApp2019
             int selection;
             while(!int.TryParse(Console.ReadLine(), out selection)
                 || selection < 1
-                || selection > 8)
+                || selection > 10)
             {
-                Console.WriteLine("\nPlease write a number between 1-8.");
+                Console.WriteLine("\nPlease write a number between 1-10.");
             }
             return selection;
         }

@@ -16,7 +16,7 @@ namespace PetShop.Infrastructure.Repositories
             _petRepo = petRepository;
         }
 
-        public Pet NewPet(string name, string type, DateTime birthday, DateTime dateSold, string color, string previousOwner, int price)
+        public Pet NewPet(string name, string type, DateTime birthday, DateTime dateSold, string color, Owner previousOwner, int price)
         {
             var pet = new Pet()
             {
@@ -66,7 +66,6 @@ namespace PetShop.Infrastructure.Repositories
         }
         public List<Pet> ListSortedByPrice(List<Pet> pets)
         {
-            Pet pet = new Pet();
             pets = pets.OrderBy(pet => pet.price).ToList();
             return pets;
         }

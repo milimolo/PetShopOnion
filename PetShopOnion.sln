@@ -9,13 +9,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{9596AF9B-C0B7-45A7-936E-04F84F2CFEC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetShop.Core", "PetShop.Core\PetShop.Core.csproj", "{DBB9794C-D0B8-4267-9AEA-431640B8614C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShop.Core", "PetShop.Core\PetShop.Core.csproj", "{DBB9794C-D0B8-4267-9AEA-431640B8614C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetShop.Core.Entity", "PetShop.Core.Entity\PetShop.Core.Entity.csproj", "{53B70D28-011E-49AB-B559-CA16CC55B043}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShop.Core.Entity", "PetShop.Core.Entity\PetShop.Core.Entity.csproj", "{53B70D28-011E-49AB-B559-CA16CC55B043}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2019", "ConsoleApp2019\ConsoleApp2019.csproj", "{786EFDAE-DF5E-4254-A5CB-4648D6696BB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2019", "ConsoleApp2019\ConsoleApp2019.csproj", "{786EFDAE-DF5E-4254-A5CB-4648D6696BB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetShop.Infrastructure.Data", "PetShop.Infrastructure.Data\PetShop.Infrastructure.Data.csproj", "{29E58713-25AE-43E5-9142-99084F9694BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShop.Infrastructure.Data", "PetShop.Infrastructure.Data\PetShop.Infrastructure.Data.csproj", "{29E58713-25AE-43E5-9142-99084F9694BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShop.UI.RestAPI", "PetShop.UI.RestAPI\PetShop.UI.RestAPI.csproj", "{0185EB54-16A2-4008-A01F-644952221A49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetShop.Infrastructure.SQL", "PetShop.Infrastructure.SQL\PetShop.Infrastructure.SQL.csproj", "{EB108696-11F9-4217-A384-257744B7634C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{29E58713-25AE-43E5-9142-99084F9694BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29E58713-25AE-43E5-9142-99084F9694BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29E58713-25AE-43E5-9142-99084F9694BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0185EB54-16A2-4008-A01F-644952221A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0185EB54-16A2-4008-A01F-644952221A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0185EB54-16A2-4008-A01F-644952221A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0185EB54-16A2-4008-A01F-644952221A49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB108696-11F9-4217-A384-257744B7634C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB108696-11F9-4217-A384-257744B7634C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB108696-11F9-4217-A384-257744B7634C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB108696-11F9-4217-A384-257744B7634C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +60,8 @@ Global
 		{53B70D28-011E-49AB-B559-CA16CC55B043} = {CD5DAF08-EF6F-48A8-93D5-FCF37AF30870}
 		{786EFDAE-DF5E-4254-A5CB-4648D6696BB9} = {9596AF9B-C0B7-45A7-936E-04F84F2CFEC6}
 		{29E58713-25AE-43E5-9142-99084F9694BB} = {95DE6E74-BD28-498E-A84F-7EA6C8E01E2C}
+		{0185EB54-16A2-4008-A01F-644952221A49} = {9596AF9B-C0B7-45A7-936E-04F84F2CFEC6}
+		{EB108696-11F9-4217-A384-257744B7634C} = {95DE6E74-BD28-498E-A84F-7EA6C8E01E2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D242E6EE-F67D-49C4-94ED-CC7D069B9531}
