@@ -8,7 +8,7 @@ using System.Text;
 
 namespace PetShop.Infrastructure.SQL.Repositories
 {
-    class PetRepository : IPetRepository
+    public class PetRepository : IPetRepository
     {
         private PetAppContext _context;
 

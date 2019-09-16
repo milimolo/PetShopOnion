@@ -6,15 +6,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.DomainService;
-using PetShop.Infrastructure.Data;
-using PetShop.Infrastructure.Data.Repositories;
 using PetShop.Infrastructure.Repositories;
+using PetShop.Infrastructure.SQL;
+using PetShop.Infrastructure.SQL.Repositories;
 
 namespace PetShop.UI.RestAPI
 {
@@ -30,6 +31,11 @@ namespace PetShop.UI.RestAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Laver en database ved navn petApp.db
+            services.AddDbContext<PetAppContext>(
+                opt => opt.UseSqlite("Data Source=petApp.db"));
+
+
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
@@ -44,7 +50,7 @@ namespace PetShop.UI.RestAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                FakeDB.InitData();
+                //FakeDB.InitData();
             }
             else
             {
