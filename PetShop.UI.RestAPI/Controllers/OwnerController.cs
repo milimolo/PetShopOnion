@@ -18,34 +18,49 @@ namespace PetShop.UI.RestAPI.Controllers
         {
             _ownerService = ownerService;
         }
-        // GET api/pets
+        // GET api/owners
         [HttpGet]
         public ActionResult<IEnumerable<Owner>> Get()
         {
             return _ownerService.GetOwners();
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<Owner> Get(int id)
+        {
+            return _ownerService.FindOwnerById(id);
+        }
+
         // POST api/pets
         [HttpPost]
-        public void Post([FromBody] Owner owner)
+        public ActionResult<Owner> Post([FromBody] Owner owner)
         {
-            _ownerService.Create(owner);
+            return _ownerService.Create(owner);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Owner owner)
+        public ActionResult<Owner> Put(int id, [FromBody] Owner owner)
         {
-            owner = _ownerService.FindOwnerById(id);
+            if (id < 1 || id != owner.id)
+            {
+                return BadRequest("Parameter id and pet id must be the same");
+            }
             _ownerService.Update(owner);
+            return Ok();
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Owner> Delete(int id)
         {
             var owner = _ownerService.FindOwnerById(id);
-            _ownerService.Delete(owner);
+            var deletedOwner = _ownerService.Delete(owner);
+            if (deletedOwner == null)
+            {
+                return StatusCode(404, $"Did not find the owner with ID: {id}");
+            }
+            return Ok($"Owner with ID: {id} has been deleted");
         }
     }
 }

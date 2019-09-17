@@ -9,8 +9,6 @@ namespace PetShop.Infrastructure.Data.Repositories
 {
     public class PetRepository : IPetRepository
     {
-        private List<Pet> _pets = new List<Pet>();
-
         public Pet CreatePet(Pet pet)
         {
             pet.ID = FakeDB.id++;
@@ -30,6 +28,19 @@ namespace PetShop.Infrastructure.Data.Repositories
 
         public Pet ReadPet(int id)
         {
+            return FakeDB.petList.Select(p => new Pet()
+            {
+                ID = p.ID,
+                name = p.name,
+                type = p.type,
+                birthday = p.birthday,
+                soldDate = p.soldDate,
+                color = p.color,
+                previousOwner = p.previousOwner,
+                price = p.price
+            }).FirstOrDefault(p => p.ID == id);
+
+
             List<Pet> pets = FakeDB.petList.ToList();
             foreach (var pet in pets)
             {
