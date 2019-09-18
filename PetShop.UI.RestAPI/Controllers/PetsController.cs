@@ -32,7 +32,6 @@ namespace PetShop.UI.RestAPI.Controllers
         [HttpPost]
         public ActionResult<Pet> Post([FromBody] Pet pet)
         {
-
             return _petService.Create(pet);
         }
 

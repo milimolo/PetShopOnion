@@ -13,11 +13,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.DomainService;
-using PetShop.Infrastructure.Data;
-using PetShop.Infrastructure.Data.Repositories;
 using PetShop.Infrastructure.Repositories;
-//using PetShop.Infrastructure.SQL;
-//using PetShop.Infrastructure.SQL.Repositories;
+using PetShop.Infrastructure.SQL;
+using PetShop.Infrastructure.SQL.Repositories;
 
 namespace PetShop.UI.RestAPI
 {
@@ -34,8 +32,8 @@ namespace PetShop.UI.RestAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //Laver en database ved navn petApp.db
-            //services.AddDbContext<PetAppContext>(
-            //    opt => opt.UseSqlite("Data Source=petApp.db"));
+            services.AddDbContext<PetAppContext>(
+                opt => opt.UseSqlite("Data Source=petApp.db"));
 
 
             services.AddScoped<IPetRepository, PetRepository>();
@@ -51,8 +49,16 @@ namespace PetShop.UI.RestAPI
         {
             if (env.IsDevelopment())
             {
+                using(var scope = app.ApplicationServices.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetRequiredService<PetAppContext>();
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
+                    DbInitializer.Seed(context);
+                }
+
                 app.UseDeveloperExceptionPage();
-                FakeDB.InitData();
+                //FakeDB.InitData();
             }
             else
             {

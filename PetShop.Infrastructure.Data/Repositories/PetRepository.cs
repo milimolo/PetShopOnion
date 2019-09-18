@@ -39,17 +39,6 @@ namespace PetShop.Infrastructure.Data.Repositories
                 previousOwner = p.previousOwner,
                 price = p.price
             }).FirstOrDefault(p => p.ID == id);
-
-
-            List<Pet> pets = FakeDB.petList.ToList();
-            foreach (var pet in pets)
-            {
-                if(id == pet.ID)
-                {
-                    return pet;
-                }
-            }
-            return null;
         }
 
         public IEnumerable<Pet> ReadPets()

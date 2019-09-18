@@ -19,9 +19,13 @@ namespace PetShop.Infrastructure.SQL.Repositories
 
         public Pet CreatePet(Pet pet)
         {
-            _context.Attach(pet).State = EntityState.Added;
+            if(pet != null)
+            {
+                _context.Attach(pet).State = EntityState.Unchanged;
+            }
+            var petSaved = _context.pets.Add(pet).Entity;
             _context.SaveChanges();
-            return pet;
+            return petSaved;
 
             //Begge er gode, men lars synes States er bedre.
 
