@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PetShop.Infrastructure.Data.Repositories
 {
-    public class OwnerRepository : IOwnerRepository
+    public class OwnerRepository
     {
         public Owner CreateOwner(Owner owner)
         {

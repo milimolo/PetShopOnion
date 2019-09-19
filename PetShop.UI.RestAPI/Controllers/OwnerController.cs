@@ -54,8 +54,7 @@ namespace PetShop.UI.RestAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Owner> Delete(int id)
         {
-            var owner = _ownerService.FindOwnerById(id);
-            var deletedOwner = _ownerService.Delete(owner);
+            var deletedOwner = _ownerService.Delete(id);
             if (deletedOwner == null)
             {
                 return StatusCode(404, $"Did not find the owner with ID: {id}");

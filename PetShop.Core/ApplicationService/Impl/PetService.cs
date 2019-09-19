@@ -36,9 +36,9 @@ namespace PetShop.Infrastructure.Repositories
             return _petRepo.CreatePet(pet);
         }
 
-        public Pet Delete(Pet pet)
+        public Pet Delete(int id)
         {
-            return _petRepo.DeletePet(pet);
+            return _petRepo.DeletePet(id);
         }
 
         public Pet FindPetById(int id)

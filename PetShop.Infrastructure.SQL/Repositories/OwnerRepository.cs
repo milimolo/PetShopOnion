@@ -18,14 +18,18 @@ namespace PetShop.Infrastructure.SQL.Repositories
         }
         public Owner CreateOwner(Owner owner)
         {
-            _context.Attach(owner).State = EntityState.Added;
+            if (owner != null)
+            {
+                _context.Attach(owner).State = EntityState.Added;
+            }
+            var ownerSaved = _context.owners.Add(owner).Entity;
             _context.SaveChanges();
             return owner;
         }
 
-        public Owner DeleteOwner(Owner owner)
+        public Owner DeleteOwner(int id)
         {
-            var entityToRemove = _context.Remove(new Owner { id = owner.id }).Entity;
+            var entityToRemove = _context.Remove(new Owner { id = id }).Entity;
             _context.SaveChanges();
             return entityToRemove;
         }

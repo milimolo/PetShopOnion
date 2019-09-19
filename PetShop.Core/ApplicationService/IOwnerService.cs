@@ -10,7 +10,7 @@ namespace PetShop.Core.ApplicationService
         Owner newOwner(string firstName, string lastName, List<Pet> pets);
         Owner Create(Owner owner);
 
-        Owner Delete(Owner owner);
+        Owner Delete(int id);
 
         Owner FindOwnerById(int id);
 

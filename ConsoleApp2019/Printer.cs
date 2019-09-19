@@ -80,9 +80,9 @@ namespace ConsoleApp2019
                         });
                         break;
                     case 5:
-                        var idForDelete = PrintFindPetById();
-                        var petToDelete = _petService.FindPetById(idForDelete);
-                        _petService.Delete(petToDelete);
+                        //var idForDelete = PrintFindPetById();
+                        //var petToDelete = _petService.FindPetById(idForDelete);
+                        //_petService.Delete(petToDelete);
                         break;
                     case 6:
                         PrintSortByPrice();

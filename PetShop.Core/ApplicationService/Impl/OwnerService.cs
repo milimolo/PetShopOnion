@@ -30,9 +30,9 @@ namespace PetShop.Core.ApplicationService
             return _ownerRepo.CreateOwner(owner);
         }
 
-        public Owner Delete(Owner owner)
+        public Owner Delete(int id)
         {
-            return _ownerRepo.DeleteOwner(owner);
+            return _ownerRepo.DeleteOwner(id);
         }
 
         public Owner FindOwnerById(int id)

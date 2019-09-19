@@ -21,7 +21,7 @@ namespace PetShop.Infrastructure.SQL.Repositories
         {
             if(pet != null)
             {
-                _context.Attach(pet).State = EntityState.Unchanged;
+                _context.Attach(pet).State = EntityState.Added;
             }
             var petSaved = _context.pets.Add(pet).Entity;
             _context.SaveChanges();
@@ -34,9 +34,9 @@ namespace PetShop.Infrastructure.SQL.Repositories
             return petToCreate;*/
         }
 
-        public Pet DeletePet(Pet pet)
+        public Pet DeletePet(int id)
         {
-            var entityRemoved = _context.Remove(new Pet { ID = pet.ID }).Entity;
+            var entityRemoved = _context.Remove(new Pet { ID = id }).Entity;
             _context.SaveChanges();
             return entityRemoved;
 

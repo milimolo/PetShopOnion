@@ -9,7 +9,7 @@ namespace PetShop.Core.DomainService
     {
         Pet CreatePet(Pet pet);
 
-        Pet DeletePet(Pet pet);
+        Pet DeletePet(int id);
 
         Pet ReadPet(int id);
 

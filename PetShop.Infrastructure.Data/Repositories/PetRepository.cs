@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PetShop.Infrastructure.Data.Repositories
 {
-    public class PetRepository : IPetRepository
+    public class PetRepository
     {
         public Pet CreatePet(Pet pet)
         {
@@ -18,13 +18,13 @@ namespace PetShop.Infrastructure.Data.Repositories
             return pet;
         }
 
-        public Pet DeletePet(Pet pet)
-        {
-            List<Pet> pets = FakeDB.petList.ToList();
-            pets.Remove(pet);
-            FakeDB.petList = pets;
-            return pet;
-        }
+        //public Pet DeletePet(int id)
+        //{
+        //    List<Pet> pets = FakeDB.petList.ToList();
+        //    pets.Remove(pet);
+        //    FakeDB.petList = pets;
+        //    return pet;
+        //}
 
         public Pet ReadPet(int id)
         {
