@@ -1,4 +1,5 @@
-﻿using PetShop.Core.Entity;
+﻿using PetShop.Core.DomainService.Filtering;
+using PetShop.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace PetShop.Core.ApplicationService
 
         Pet FindPetById(int id);
 
-        List<Pet> GetPets();
+        FilteringList<Pet> GetPets(Filter filter = null);
 
         Pet Update(Pet petToUpdate);
 

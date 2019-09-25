@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetShop.Core.ApplicationService;
+using PetShop.Core.DomainService.Filtering;
 using PetShop.Core.Entity;
 
 namespace PetShop.UI.RestAPI.Controllers
@@ -20,14 +21,46 @@ namespace PetShop.UI.RestAPI.Controllers
         }
         // GET api/owners
         [HttpGet]
-        public ActionResult<IEnumerable<Owner>> Get()
+        public ActionResult<FilteringList<Owner>> Get([FromQuery] Filter filter)
         {
-            return _ownerService.GetOwners();
+            try
+            {
+                if (filter.CurrentPage == 0 && filter.ItemsPrPage == 0)
+                {
+                    var list = _ownerService.GetOwners(null);
+                    var newList = new List<Owner>();
+                    foreach (var owner in list.List)
+                    {
+                        newList.Add(new Owner()
+                        {
+                            id = owner.id,
+                            firstName = owner.firstName,
+                            lastName = owner.lastName,
+                            Address = owner.Address,
+                            petHistory = owner.petHistory
+                        });
+                    }
+                    var newFilteredList = new FilteringList<Owner>();
+                    newFilteredList.List = newList;
+                    newFilteredList.count = list.count;
+                    return Ok(newFilteredList);
+                }
+
+                var fl = _ownerService.GetOwners(filter);
+
+                return Ok(fl);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public ActionResult<Owner> Get(int id)
         {
+            if (id < 1) return BadRequest("Id must be greater than 1");
             return _ownerService.FindOwnerById(id);
         }
 

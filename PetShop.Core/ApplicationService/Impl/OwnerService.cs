@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PetShop.Core.DomainService;
+using PetShop.Core.DomainService.Filtering;
 using PetShop.Core.Entity;
 
 namespace PetShop.Core.ApplicationService
@@ -40,9 +41,9 @@ namespace PetShop.Core.ApplicationService
             return _ownerRepo.ReadOwner(id);
         }
 
-        public List<Owner> GetOwners()
+        public FilteringList<Owner> GetOwners(Filter filter)
         {
-            return _ownerRepo.ReadOwners().ToList();
+            return _ownerRepo.ReadOwners(filter);
         }
 
         public Owner Update(Owner ownerToUpdate)
@@ -50,18 +51,20 @@ namespace PetShop.Core.ApplicationService
             var owner = FindOwnerById(ownerToUpdate.id);
             owner.firstName = ownerToUpdate.firstName;
             owner.lastName = ownerToUpdate.lastName;
-            owner.pets = ownerToUpdate.pets;
+            owner.Address = ownerToUpdate.Address;
+            owner.petHistory = ownerToUpdate.petHistory;
 
             return _ownerRepo.UpdateOwner(owner);
         }
 
-        public Owner newOwner(string firstName, string lastName, List<Pet> pets)
+        public Owner newOwner(string firstName, string lastName, string address, List<PetOwner> petHistory)
         {
             var owner = new Owner()
             {
                 firstName = firstName,
                 lastName = lastName,
-                pets = pets
+                Address = address,
+                petHistory = petHistory
             };
             return owner;
         }

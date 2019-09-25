@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetShop.Core.DomainService;
+using PetShop.Core.DomainService.Filtering;
 using PetShop.Core.Entity;
 using System;
 using System.Collections.Generic;
@@ -36,18 +37,44 @@ namespace PetShop.Infrastructure.SQL.Repositories
 
         public Owner ReadOwner(int id)
         {
-            var foundOwner = _context.owners.FirstOrDefault(o => o.id == id);
-            return foundOwner;
+            return _context.owners
+                .Include(o => o.petHistory)
+                .ThenInclude(po => po.pet)
+                .FirstOrDefault(o => o.id == id);
         }
 
-        public IEnumerable<Owner> ReadOwners()
+        public FilteringList<Owner> ReadOwners(Filter filter)
         {
-            return _context.owners.ToList();
+            var filteredList = new FilteringList<Owner>();
+
+            if (filter != null && filter.CurrentPage > 0 && filter.ItemsPrPage > 0)
+            {
+                filteredList.List = _context.owners
+                    .Skip((filter.CurrentPage - 1) * filter.ItemsPrPage)
+                    .Take(filter.ItemsPrPage)
+                    .OrderBy(o => o.id)
+                    .Include(p => p.petHistory)
+                    .ThenInclude(po => po.pet)
+                    .ToList();
+                return filteredList;
+            }
+            filteredList.List = _context.owners
+                .Include(p => p.petHistory)
+                .ThenInclude(po => po.pet);
+            filteredList.count = filteredList.List.Count();
+            return filteredList;
         }
 
         public Owner UpdateOwner(Owner ownerUpdate)
         {
-            throw new NotImplementedException();
+            if (ownerUpdate != null)
+            {
+                _context.Attach(ownerUpdate).State = EntityState.Added;
+                _context.Entry(ownerUpdate).Collection(o => o.petHistory).IsModified = true;
+            }
+            var ownerSaved = _context.owners.Update(ownerUpdate).Entity;
+            _context.SaveChanges();
+            return ownerUpdate;
         }
     }
 }

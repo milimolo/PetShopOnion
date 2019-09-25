@@ -16,10 +16,9 @@ namespace PetShop.Core.Entity
 
         public DateTime soldDate { get; set; }
 
-        public string color { get; set; }
-
-        public Owner previousOwner { get; set; }
+        public string color { get; set; } 
 
         public double price { get; set; }
+        public List<PetOwner> ownersHistory { get; set; }
     }
 }

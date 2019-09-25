@@ -65,7 +65,6 @@ namespace PetShop.Infrastructure.Data
                 birthday = new DateTime(2008, 4, 15),
                 soldDate = new DateTime(2008, 8, 28),
                 color = "red",
-                previousOwner = new Owner { id=owner.id},
                 price = 4000
             };
             var pet2 = new Pet()
@@ -76,7 +75,6 @@ namespace PetShop.Infrastructure.Data
                 birthday = new DateTime(2002, 2, 21),
                 soldDate = new DateTime(2004, 5, 06),
                 color = "Golden",
-                previousOwner = owner1,
                 price = 1500
             };
             var pet3 = new Pet()
@@ -87,7 +85,6 @@ namespace PetShop.Infrastructure.Data
                 birthday = new DateTime(2003, 11, 01),
                 soldDate = new DateTime(2004, 1, 12),
                 color = "Black",
-                previousOwner = owner2,
                 price = 2500
             };
             var pet4 = new Pet()
@@ -98,7 +95,6 @@ namespace PetShop.Infrastructure.Data
                 birthday = new DateTime(2003, 11, 01),
                 soldDate = new DateTime(2004, 1, 12),
                 color = "Black",
-                previousOwner = owner3,
                 price = 2700
             };
             var pet5 = new Pet()
@@ -109,7 +105,6 @@ namespace PetShop.Infrastructure.Data
                 birthday = new DateTime(2003, 11, 01),
                 soldDate = new DateTime(2004, 1, 12),
                 color = "Grey",
-                previousOwner = owner4,
                 price = 3200
             };
             var pet6 = new Pet()
@@ -120,7 +115,6 @@ namespace PetShop.Infrastructure.Data
                 birthday = new DateTime(2003, 11, 01),
                 soldDate = new DateTime(2004, 1, 12),
                 color = "Grey",
-                previousOwner = owner5,
                 price = 5000
             };
             petList = new List<Pet> { pet1, pet2, pet3, pet4, pet5, pet6 };

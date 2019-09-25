@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.DomainService;
 using PetShop.Infrastructure.Repositories;
@@ -31,6 +32,7 @@ namespace PetShop.UI.RestAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IPetRepository, Infrastructure.SQL.Repositories.PetRepository>();
             //Laver en database ved navn petApp.db
             services.AddDbContext<PetAppContext>(
                 opt => opt.UseSqlite("Data Source=petApp.db"));
@@ -40,6 +42,12 @@ namespace PetShop.UI.RestAPI
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IOwnerService, OwnerService>();
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //options.SerializerSettings.MaxDepth = 2;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -65,7 +73,7 @@ namespace PetShop.UI.RestAPI
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

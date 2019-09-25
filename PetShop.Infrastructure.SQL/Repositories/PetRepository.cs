@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetShop.Core.DomainService;
+using PetShop.Core.DomainService.Filtering;
 using PetShop.Core.Entity;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace PetShop.Infrastructure.SQL.Repositories
             if(pet != null)
             {
                 _context.Attach(pet).State = EntityState.Added;
+                _context.Entry(pet).Collection(p => p.ownersHistory).IsModified = true;
             }
             var petSaved = _context.pets.Add(pet).Entity;
             _context.SaveChanges();
@@ -48,19 +50,53 @@ namespace PetShop.Infrastructure.SQL.Repositories
             return removing;*/
         }
 
-        public Pet ReadPet(int id)
+        public Pet ReadPetById(int id)
         {
-            return _context.pets.FirstOrDefault(p => p.ID == id);
+            return _context.pets
+                .Include(o => o.ownersHistory)
+                .ThenInclude(po => po.owner)
+                .FirstOrDefault(p => p.ID == id);
         }
 
-        public IEnumerable<Pet> ReadPets()
+        public FilteringList<Pet> ReadPets(Filter filter)
         {
-            return _context.pets.ToList();
+            var filteredList = new FilteringList<Pet>();
+
+            if(filter != null && filter.CurrentPage > 0 && filter.ItemsPrPage > 0)
+            {
+                filteredList.List = _context.pets
+                    .Skip((filter.CurrentPage - 1) * filter.ItemsPrPage)
+                    .Take(filter.ItemsPrPage)
+                    .OrderBy(p => p.ID)
+                    .Include(o => o.ownersHistory)
+                    .ThenInclude(po => po.owner)
+                    .ToList();
+                return filteredList;
+            }
+            filteredList.List = _context.pets
+                .Include(o => o.ownersHistory)
+                .ThenInclude(po => po.owner);
+            filteredList.count = filteredList.List.Count();
+            return filteredList;
         }
 
         public Pet UpdatePet(Pet petUpdate)
         {
-            throw new NotImplementedException();
+            if (petUpdate != null)
+            {
+                _context.Attach(petUpdate).State = EntityState.Modified;
+                //_context.Entry(petUpdate).Collection(p => p.ownersHistory).IsModified = true;
+            }
+            var petOwners = new List<PetOwner>(petUpdate.ownersHistory ?? new List<PetOwner>());
+            _context.petOwners.RemoveRange(
+                _context.petOwners.Where(p => p.petId == petUpdate.ID)
+                );
+            foreach (var po in petOwners)
+            {
+                _context.Entry(po).State = EntityState.Added;
+            }
+            _context.SaveChanges();
+            return petUpdate;
         }
     }
 }

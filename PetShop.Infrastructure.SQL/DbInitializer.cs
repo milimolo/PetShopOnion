@@ -12,67 +12,69 @@ namespace PetShop.Infrastructure.SQL
             pac.Database.EnsureDeleted();
             pac.Database.EnsureCreated();
 
-            var owner1 = pac.owners.Add(new Owner()
+            var owner1 = new Owner()
             {
                 firstName = "Jens",
-                lastName = "Madsen"
-            }).Entity;
+                lastName = "Madsen",
+                Address = "Stenholdtvej 29",
+                petHistory = new List<PetOwner>()
+            };
 
-            var owner2 = pac.owners.Add(new Owner()
+            var owner2 = new Owner()
             {
                 firstName = "Jørgen",
-                lastName = "Jespersen"
-            }).Entity;
+                lastName = "Jespersen",
+                Address = "Løjtbækgade 14",
+                petHistory = new List<PetOwner>()
+            };
 
-            var owner3 = pac.owners.Add(new Owner()
-            {
-                firstName = "Mads",
-                lastName = "Mikkelsen"
-            }).Entity;
-
-            var pet1 = pac.pets.Add(new Pet()
+            var pet1 = new Pet()
             {
                 name = "Lady",
                 type = "Dog",
                 birthday = new DateTime(2008, 4, 15),
                 soldDate = new DateTime(2008, 8, 28),
                 color = "red",
-                previousOwner = new Owner { id = owner1.id },
-                price = 4000
-            }).Entity;
+                price = 4000,
+                ownersHistory = new List<PetOwner>()
+            };
 
-            var pet2 = pac.pets.Add(new Pet()
+            var pet2 = new Pet()
             {
                 name = "Fiddo",
                 type = "Dog",
                 birthday = new DateTime(2002, 2, 21),
                 soldDate = new DateTime(2004, 5, 06),
                 color = "Golden",
-                previousOwner = owner1,
-                price = 1500
-            }).Entity;
+                price = 1500,
+                ownersHistory = new List<PetOwner>()
+            };
 
-            var pet3 = pac.pets.Add(new Pet()
-            {
-                name = "Jesse",
-                type = "Cat",
-                birthday = new DateTime(2003, 11, 01),
-                soldDate = new DateTime(2004, 1, 12),
-                color = "Black",
-                previousOwner = owner2,
-                price = 2500
-            }).Entity;
+            owner1 = pac.owners.Add(owner1).Entity;
+            owner2 = pac.owners.Add(owner2).Entity;
 
-            var pet4 = pac.pets.Add(new Pet()
+
+            PetOwner petOwner1 = new PetOwner
             {
-                name = "Miav",
-                type = "Cat",
-                birthday = new DateTime(2003, 11, 01),
-                soldDate = new DateTime(2004, 1, 12),
-                color = "Black",
-                previousOwner = owner3,
-                price = 2700
-            }).Entity;
+                owner = owner1
+            };
+
+            PetOwner petOwner2 = new PetOwner
+            {
+                owner = owner2
+            };
+
+            PetOwner petOwner3 = new PetOwner
+            {
+                owner = owner1
+            };
+
+            pet1.ownersHistory.Add(petOwner1);
+            pet2.ownersHistory.Add(petOwner2);
+
+
+            _ = pac.pets.Add(pet1).Entity;
+            _ = pac.pets.Add(pet2).Entity;
 
             pac.SaveChanges();
         }

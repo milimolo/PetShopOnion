@@ -1,4 +1,5 @@
-﻿using PetShop.Core.Entity;
+﻿using PetShop.Core.DomainService.Filtering;
+using PetShop.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,9 +12,9 @@ namespace PetShop.Core.DomainService
 
         Pet DeletePet(int id);
 
-        Pet ReadPet(int id);
+        Pet ReadPetById(int id);
 
-        IEnumerable<Pet> ReadPets();
+        FilteringList<Pet> ReadPets(Filter filter);
 
         Pet UpdatePet(Pet petUpdate);
     }

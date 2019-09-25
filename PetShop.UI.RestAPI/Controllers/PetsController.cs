@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using PetShop.Core.ApplicationService;
+using PetShop.Core.DomainService.Filtering;
 using PetShop.Core.Entity;
+using PetShop.UI.RestAPI.Dtos;
 
 namespace PetShop.UI.RestAPI.Controllers
 {
@@ -16,15 +19,57 @@ namespace PetShop.UI.RestAPI.Controllers
         }
         // GET api/pets
         [HttpGet]
-        public ActionResult<IEnumerable<Pet>> Get()
+        public ActionResult<FilteringList<Pet>> Get([FromQuery] Filter filter)
         {
-            return _petService.GetPets();
+            try
+            {
+                if(filter.CurrentPage == 0 && filter.ItemsPrPage == 0)
+                {
+                    var list = _petService.GetPets(null);
+                    var newList = new List<Pet>();
+                    foreach (var pet in list.List)
+                    {
+                        newList.Add(new Pet()
+                        {
+                            ID = pet.ID,
+                            name = pet.name,
+                            type = pet.type,
+                            birthday = pet.birthday,
+                            soldDate = pet.soldDate,
+                            color = pet.color,
+                            price = pet.price,
+                            ownersHistory = pet.ownersHistory
+                        }) ;
+                    }
+                    var newFilteredList = new FilteringList<Pet>();
+                    newFilteredList.List = newList;
+                    newFilteredList.count = list.count;
+                    return Ok(newFilteredList);
+                }
+
+                var fl = _petService.GetPets(filter);
+
+                return Ok(fl);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
         }
 
         // GET api/pets by id
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
+            if (id < 1) return BadRequest("Id must be greater than 1");
+
+            //var corePet = _petService.FindPetById(id);
+            //return new PetDTO()
+            //{
+            //    ID = corePet.ID,
+            //    name = corePet.name
+            //};
             return _petService.FindPetById(id);
         }
 

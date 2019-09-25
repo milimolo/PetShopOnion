@@ -1,5 +1,6 @@
 ﻿using PetShop.Core.ApplicationService;
 using PetShop.Core.DomainService;
+using PetShop.Core.DomainService.Filtering;
 using PetShop.Core.Entity;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,6 @@ namespace PetShop.Infrastructure.Repositories
                 birthday = birthday,
                 soldDate = dateSold,
                 color = color,
-                previousOwner = previousOwner,
                 price = price
             };
             return pet;
@@ -33,6 +33,7 @@ namespace PetShop.Infrastructure.Repositories
 
         public Pet Create(Pet pet)
         {
+            validatePet(pet);
             return _petRepo.CreatePet(pet);
         }
 
@@ -43,12 +44,12 @@ namespace PetShop.Infrastructure.Repositories
 
         public Pet FindPetById(int id)
         {
-            return _petRepo.ReadPet(id);
+            return _petRepo.ReadPetById(id);
         }
 
-        public List<Pet> GetPets()
+        public FilteringList<Pet> GetPets(Filter filter = null)
         {
-            return _petRepo.ReadPets().ToList();
+            return _petRepo.ReadPets(filter);
         }
 
         public Pet Update(Pet petToUpdate)
@@ -59,8 +60,8 @@ namespace PetShop.Infrastructure.Repositories
             pet.birthday = petToUpdate.birthday;
             pet.soldDate = petToUpdate.soldDate;
             pet.color = petToUpdate.color;
-            pet.previousOwner = petToUpdate.previousOwner;
             pet.price = petToUpdate.price;
+            pet.ownersHistory = petToUpdate.ownersHistory;
 
             return _petRepo.UpdatePet(pet);
         }
@@ -69,5 +70,11 @@ namespace PetShop.Infrastructure.Repositories
             pets = pets.OrderBy(pet => pet.price).ToList();
             return pets;
         }
+
+        private void validatePet(Pet pet)
+        {
+            
+        }
+
     }
 }

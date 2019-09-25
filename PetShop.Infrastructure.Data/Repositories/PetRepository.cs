@@ -36,7 +36,6 @@ namespace PetShop.Infrastructure.Data.Repositories
                 birthday = p.birthday,
                 soldDate = p.soldDate,
                 color = p.color,
-                previousOwner = p.previousOwner,
                 price = p.price
             }).FirstOrDefault(p => p.ID == id);
         }
@@ -56,7 +55,6 @@ namespace PetShop.Infrastructure.Data.Repositories
                 pet.birthday = petUpdate.birthday;
                 pet.soldDate = petUpdate.soldDate;
                 pet.color = petUpdate.color;
-                pet.previousOwner = petUpdate.previousOwner;
                 pet.price = petUpdate.price;
                 return pet;
             }
