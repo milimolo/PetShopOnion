@@ -108,8 +108,8 @@ namespace PetShop.UI.RestAPI
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var context = scope.ServiceProvider.GetRequiredService<PetAppContext>();
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
+                    //context.Database.EnsureDeleted();
+                    //context.Database.EnsureCreated();
                     // Initialize the database
                     var services = scope.ServiceProvider;
                     var dbContext = services.GetService<PetAppContext>();

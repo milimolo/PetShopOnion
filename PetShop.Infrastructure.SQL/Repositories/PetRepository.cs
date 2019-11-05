@@ -67,8 +67,7 @@ namespace PetShop.Infrastructure.SQL.Repositories
                     .Take(filter.ItemsPrPage)
                     .OrderBy(p => p.ID)
                     .Include(o => o.ownersHistory)
-                    .ThenInclude(po => po.owner)
-                    .ToList();
+                    .ThenInclude(po => po.owner);
                 return filteredList.ToList();
             }
             return _context.pets

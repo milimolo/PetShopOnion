@@ -47,9 +47,13 @@ namespace PetShop.Infrastructure.Repositories
             return _petRepo.ReadPetById(id);
         }
 
-        public FilteringList<Pet> GetPets(Filter filter = null)
+        public List<Pet> GetPets(Filter filter)
         {
-            return _petRepo.ReadPets(filter);
+            if (filter == null)
+            {
+                return _petRepo.ReadPets(null).ToList();
+            }
+            return _petRepo.ReadPets(filter).ToList();
         }
 
         public Pet Update(Pet petToUpdate)
