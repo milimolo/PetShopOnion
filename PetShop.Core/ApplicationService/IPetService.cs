@@ -16,7 +16,7 @@ namespace PetShop.Core.ApplicationService
 
         Pet FindPetById(int id);
 
-        FilteringList<Pet> GetPets(Filter filter = null);
+        List<Pet> GetPets(Filter filter = null);
 
         Pet Update(Pet petToUpdate);
 

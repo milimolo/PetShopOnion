@@ -1,17 +1,22 @@
 ﻿using PetShop.Core.Entity;
+using PetShop.Infrastructure.SQL.Helper;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PetShop.Infrastructure.SQL
 {
-    public class DbInitializer
+    public class DbInitializer : IDbInitializer
     {
-        public static void Seed(PetAppContext pac)
-        {
-            pac.Database.EnsureDeleted();
-            pac.Database.EnsureCreated();
+        private readonly IAuthenticationHelper authenticationHelper;
 
+        public DbInitializer(IAuthenticationHelper authHelper)
+        {
+            authenticationHelper = authHelper;
+        }
+
+        public void Seed(PetAppContext pac)
+        {
             var owner1 = new Owner()
             {
                 firstName = "Jens",
@@ -76,6 +81,30 @@ namespace PetShop.Infrastructure.SQL
             _ = pac.pets.Add(pet1).Entity;
             _ = pac.pets.Add(pet2).Entity;
 
+
+            string password = "12345";
+            byte[] passwordHashJoe, passwordSaltJoe, passwordHashAnn, passwordSaltAnn;
+            authenticationHelper.CreatePasswordHash(password, out passwordHashJoe, out passwordSaltJoe);
+            authenticationHelper.CreatePasswordHash(password, out passwordHashAnn, out passwordSaltAnn);
+
+            List<User> users = new List<User>
+            {
+                new User
+                {
+                    Username = "UserJoe",
+                    PasswordHash = passwordHashJoe,
+                    PasswordSalt = passwordSaltJoe,
+                    IsAdmin = true
+                },
+                new User {
+                    Username = "AdminAnn",
+                    PasswordHash = passwordHashAnn,
+                    PasswordSalt = passwordSaltAnn,
+                    IsAdmin = false
+                }
+            };
+
+            pac.Users.AddRange(users);
             pac.SaveChanges();
         }
     }

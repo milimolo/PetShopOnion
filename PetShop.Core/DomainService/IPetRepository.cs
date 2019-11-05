@@ -14,7 +14,7 @@ namespace PetShop.Core.DomainService
 
         Pet ReadPetById(int id);
 
-        FilteringList<Pet> ReadPets(Filter filter);
+        IEnumerable<Pet> ReadPets(Filter filter);
 
         Pet UpdatePet(Pet petUpdate);
     }

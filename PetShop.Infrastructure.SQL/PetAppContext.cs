@@ -30,5 +30,7 @@ namespace PetShop.Infrastructure.SQL
         public DbSet<Owner> owners { get; set; }
 
         public DbSet<PetOwner> petOwners { get; set; }
+
+        public DbSet<User> Users { get; set; }
     }
 }

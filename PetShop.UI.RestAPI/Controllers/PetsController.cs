@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.DomainService.Filtering;
@@ -8,6 +9,7 @@ using PetShop.UI.RestAPI.Dtos;
 
 namespace PetShop.UI.RestAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class PetsController : ControllerBase
@@ -18,6 +20,7 @@ namespace PetShop.UI.RestAPI.Controllers
             _petService = petService;
         }
         // GET api/pets
+        //[Authorize]
         [HttpGet]
         public ActionResult<FilteringList<Pet>> Get([FromQuery] Filter filter)
         {
@@ -59,6 +62,7 @@ namespace PetShop.UI.RestAPI.Controllers
         }
 
         // GET api/pets by id
+        //[Authorize]
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
@@ -74,6 +78,7 @@ namespace PetShop.UI.RestAPI.Controllers
         }
 
         // POST api/pets
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult<Pet> Post([FromBody] Pet pet)
         {
@@ -81,6 +86,7 @@ namespace PetShop.UI.RestAPI.Controllers
         }
 
         // PUT api/values/5
+        //[Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
         {
@@ -93,6 +99,7 @@ namespace PetShop.UI.RestAPI.Controllers
         }
 
         // DELETE api/values/5
+        //[Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public ActionResult<Pet> Delete(int id)
         {
