@@ -59,7 +59,7 @@ namespace PetShop.UI.RestAPI.Controllers
         }
 
         // POST api/pets
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult<Pet> Post([FromBody] Pet pet)
         {
