@@ -14,7 +14,7 @@ namespace PetShop.Core.DomainService
 
         Owner ReadOwner(int id);
 
-        FilteringList<Owner> ReadOwners(Filter filter);
+        IEnumerable<Owner> ReadOwners(Filter filter);
 
         Owner UpdateOwner(Owner ownerUpdate);
     }

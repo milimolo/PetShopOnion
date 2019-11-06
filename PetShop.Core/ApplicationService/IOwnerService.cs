@@ -15,7 +15,7 @@ namespace PetShop.Core.ApplicationService
 
         Owner FindOwnerById(int id);
 
-        FilteringList<Owner> GetOwners(Filter filter);
+        List<Owner> GetOwners(Filter filter);
 
         Owner Update(Owner ownerToUpdate);
     }
