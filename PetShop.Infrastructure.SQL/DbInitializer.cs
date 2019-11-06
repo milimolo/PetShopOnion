@@ -87,24 +87,23 @@ namespace PetShop.Infrastructure.SQL
             authenticationHelper.CreatePasswordHash(password, out passwordHashJoe, out passwordSaltJoe);
             authenticationHelper.CreatePasswordHash(password, out passwordHashAnn, out passwordSaltAnn);
 
-            List<User> users = new List<User>
+            var user1 = new User
             {
-                new User
-                {
-                    Username = "UserJoe",
-                    PasswordHash = passwordHashJoe,
-                    PasswordSalt = passwordSaltJoe,
-                    IsAdmin = true
-                },
-                new User {
-                    Username = "AdminAnn",
-                    PasswordHash = passwordHashAnn,
-                    PasswordSalt = passwordSaltAnn,
-                    IsAdmin = false
-                }
+                Username = "UserJoe",
+                PasswordHash = passwordHashJoe,
+                PasswordSalt = passwordSaltJoe,
+                IsAdmin = true
             };
+            var user2 = new User {
+                Username = "AdminAnn",
+                PasswordHash = passwordHashAnn,
+                PasswordSalt = passwordSaltAnn,
+                IsAdmin = false
+            };
+            _ = pac.Users.Add(user1).Entity;
+            _ = pac.Users.Add(user2).Entity;
 
-            pac.Users.AddRange(users);
+
             pac.SaveChanges();
         }
     }

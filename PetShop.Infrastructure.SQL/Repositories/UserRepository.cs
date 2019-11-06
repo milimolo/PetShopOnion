@@ -8,7 +8,7 @@ using System.Text;
 
 namespace PetShop.Infrastructure.SQL.Repositories
 {
-    public class UserRepository : IUserRepository
+    public  class UserRepository : IUserRepository
     {
         private readonly PetAppContext db;
 

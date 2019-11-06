@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using PetShop.Core.Entity;
 
 namespace PetShop.Infrastructure.SQL.Helper
@@ -26,31 +28,26 @@ namespace PetShop.Infrastructure.SQL.Helper
 
         public string GenerateToken(User user)
         {
-            throw new NotImplementedException();
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+
+            if (user.IsAdmin)
+                claims.Add(new Claim(ClaimTypes.Role, "Administator"));
+
+            var token = new JwtSecurityToken(
+                new JwtHeader(new SigningCredentials(
+                    new SymmetricSecurityKey(secretBytes),
+                    SecurityAlgorithms.HmacSha256)),
+                new JwtPayload(null,
+                null,
+                claims.ToArray(),
+                DateTime.Now,
+                DateTime.Now.AddMinutes(10)));
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-        //public string GenerateToken(User user)
-        //{
-        //    var claims = new List<Claim>
-        //    {
-        //        new Claim(ClaimTypes.Name, user.Username)
-        //    };
-
-        //    if (user.IsAdmin)
-        //        claims.Add(new Claim(ClaimTypes.Role, "Administator"));
-
-        //    var token = new JwtSecurityToken(
-        //        new JwtHeader(new SigningCredentials(
-        //            new SymmetricSecurityKey(secretBytes),
-        //            SecurityAlgorithms.HmacSha256)),
-        //        new JwtPayload(null,
-        //        null,
-        //        claims.ToArray(),
-        //        DateTime.Now,
-        //        DateTime.Now.AddMinutes(10)));
-
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-        //}
 
         public bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {

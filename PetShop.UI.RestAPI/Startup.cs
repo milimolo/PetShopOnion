@@ -124,7 +124,7 @@ namespace PetShop.UI.RestAPI
                 app.UseHsts();
             }
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
