@@ -27,23 +27,7 @@ namespace PetShop.UI.RestAPI.Controllers
             {
                 if (filter.CurrentPage == 0 && filter.ItemsPrPage == 0)
                 {
-                    var list = _ownerService.GetOwners(null);
-                    var newList = new List<Owner>();
-                    foreach (var owner in list.List)
-                    {
-                        newList.Add(new Owner()
-                        {
-                            id = owner.id,
-                            firstName = owner.firstName,
-                            lastName = owner.lastName,
-                            Address = owner.Address,
-                            petHistory = owner.petHistory
-                        });
-                    }
-                    var newFilteredList = new FilteringList<Owner>();
-                    newFilteredList.List = newList;
-                    newFilteredList.count = list.count;
-                    return Ok(newFilteredList);
+                    return Ok(_ownerService.GetOwners(null));
                 }
 
                 var fl = _ownerService.GetOwners(filter);
