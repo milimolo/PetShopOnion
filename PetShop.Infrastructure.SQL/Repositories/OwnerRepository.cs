@@ -43,26 +43,21 @@ namespace PetShop.Infrastructure.SQL.Repositories
                 .FirstOrDefault(o => o.id == id);
         }
 
-        public FilteringList<Owner> ReadOwners(Filter filter)
+        public IEnumerable<Owner> ReadOwners(Filter filter)
         {
-            var filteredList = new FilteringList<Owner>();
-
             if (filter != null && filter.CurrentPage > 0 && filter.ItemsPrPage > 0)
             {
-                filteredList.List = _context.owners
+                var filteredList = _context.owners
                     .Skip((filter.CurrentPage - 1) * filter.ItemsPrPage)
                     .Take(filter.ItemsPrPage)
                     .OrderBy(o => o.id)
                     .Include(p => p.petHistory)
-                    .ThenInclude(po => po.pet)
-                    .ToList();
-                return filteredList;
+                    .ThenInclude(po => po.pet);
+                return filteredList.ToList();
             }
-            filteredList.List = _context.owners
+            return _context.owners
                 .Include(p => p.petHistory)
                 .ThenInclude(po => po.pet);
-            filteredList.count = filteredList.List.Count();
-            return filteredList;
         }
 
         public Owner UpdateOwner(Owner ownerUpdate)

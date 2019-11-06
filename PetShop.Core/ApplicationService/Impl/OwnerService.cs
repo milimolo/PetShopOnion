@@ -41,9 +41,13 @@ namespace PetShop.Core.ApplicationService
             return _ownerRepo.ReadOwner(id);
         }
 
-        public FilteringList<Owner> GetOwners(Filter filter)
+        public List<Owner> GetOwners(Filter filter)
         {
-            return _ownerRepo.ReadOwners(filter);
+            if(filter == null)
+            {
+                return _ownerRepo.ReadOwners(null).ToList();
+            }
+            return _ownerRepo.ReadOwners(filter).ToList();
         }
 
         public Owner Update(Owner ownerToUpdate)
